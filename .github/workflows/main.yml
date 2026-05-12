@@ -1,4 +1,4 @@
-name: Bot Orologi Automazione H24
+name: Radar Orologi 10 Minuti
 on:
   schedule:
     - cron: '*/10 * * * *' # Esegue il controllo ogni 10 minuti
