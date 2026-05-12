@@ -36,6 +36,10 @@ def analizza_affare(titolo, prezzo):
     return "🔍 **RILEVATO**"
 
 def controlla_vinted():
+    def controlla_vinted():
+    invia_notifica("Test connessione: il bot è vivo!") # Aggiungi questa riga
+    print("Scansione in corso...")
+
     print("Scansione in corso...")
     params = {
         "search_text": RICERCA,
