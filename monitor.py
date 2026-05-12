@@ -2,6 +2,7 @@ import os
 import requests
 from vinted_scraper import VintedScraper
 
+# Caricamento credenziali dalle Secrets di GitHub
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
@@ -20,9 +21,11 @@ def invia_notifica(messaggio):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     payload = {"chat_id": CHAT_ID, "text": messaggio, "parse_mode": "Markdown"}
     try:
-        requests.post(url, json=payload)
+        response = requests.post(url, json=payload)
+        # Stampa a video il risultato per il log di GitHub
+        print(f"Risultato invio Telegram: {response.status_code}")
     except Exception as e:
-        print(f"Errore invio: {e}")
+        print(f"Errore critico invio: {e}")
 
 def analizza_affare(titolo, prezzo):
     t = titolo.lower()
@@ -36,11 +39,11 @@ def analizza_affare(titolo, prezzo):
     return "🔍 **RILEVATO**"
 
 def controlla_vinted():
-    def controlla_vinted():
-    invia_notifica("Test connessione: il bot è vivo!") # Aggiungi questa riga
-    print("Scansione in corso...")
-
-    print("Scansione in corso...")
+    # --- MESSAGGIO DI CONTROLLO INIZIALE ---
+    invia_notifica("🚀 **Il monitor è partito!** Sto controllando Vinted...")
+    
+    print(f"Avvio scansione per: {RICERCA}")
+    
     params = {
         "search_text": RICERCA,
         "order": "newest_first",
@@ -51,19 +54,15 @@ def controlla_vinted():
     try:
         items = scraper.search(params)
         
-        # CASO 1: Vinted non restituisce proprio nulla
         if not items:
-            invia_notifica("⚪ **Check completato**: Nessun nuovo annuncio trovato su Vinted.")
+            invia_notifica("⚪ **Check completato**: Nessun nuovo annuncio trovato.")
             return
 
-        # Filtriamo gli oggetti (prendiamo solo i più recenti per non intasare)
         annunci_validi = items[:5]
         
         if len(annunci_validi) == 0:
-            # CASO 2: Esistono annunci ma nessuno rispetta i parametri (raro con questa ricerca ampia)
             invia_notifica("⚪ **Check completato**: Esito negativo (filtri non superati).")
         else:
-            # CASO 3: Trovati annunci!
             for item in annunci_validi:
                 prezzo = float(item.price)
                 titolo = item.title
@@ -79,8 +78,7 @@ def controlla_vinted():
                 invia_notifica(messaggio)
                 
     except Exception as e:
-        # Se c'è un errore tecnico, ti avvisa comunque (così sai perché non ricevi esiti)
-        invia_notifica(f"⚠️ **Check fallito**: Errore tecnico durante la scansione.\n`{e}`")
+        invia_notifica(f"⚠️ **Check fallito**: Errore tecnico.\n`{e}`")
 
 if __name__ == "__main__":
     controlla_vinted()
