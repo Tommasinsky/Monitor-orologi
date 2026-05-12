@@ -1,20 +1,25 @@
-name: Bot Orologi Automazione
+name: Bot Orologi Automazione H24
 on:
   schedule:
-    - cron: '*/15 * * * *' # Gira ogni 15 minuti
-  workflow_dispatch: # Questo ti permette di farlo partire a mano per testare
+    - cron: '*/10 * * * *' # Esegue il controllo ogni 10 minuti
+  workflow_dispatch: # Ti permette di farlo partire a mano quando vuoi
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+
       - name: Install dependencies
-        run: pip install vinted-scraper requests
+        run: |
+          pip install vinted-scraper requests
+
       - name: Esegui monitor
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
