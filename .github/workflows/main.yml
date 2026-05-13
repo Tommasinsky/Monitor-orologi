@@ -1,7 +1,7 @@
 name: Radar Orologi 10 Minuti
 on:
   schedule:
-    - cron: '*/10 * * * *' # Esegue il controllo ogni 10 minuti
+    - cron: '*/5 * * * *' # Esegue il controllo ogni 10 minuti
   workflow_dispatch: # Ti permette di farlo partire a mano quando vuoi
 
 jobs:
