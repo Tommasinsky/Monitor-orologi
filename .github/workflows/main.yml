@@ -1,24 +1,27 @@
-name: Radar Orologi 10 Minuti
+name: Radar_H24_Sbloccato
 on:
   schedule:
-    - cron: '*/5 * * * *' # Esegue il controllo ogni 10 minuti
-  workflow_dispatch: # Ti permette di farlo partire a mano quando vuoi
+    - cron: '*/10 * * * *'  # Ogni 10 minuti
+  workflow_dispatch:        # Permette l'avvio manuale
+
+permissions:
+  contents: write
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
       - name: Install dependencies
         run: |
-          pip install vinted-scraper requests
+          pip install requests vinted-scraper
 
       - name: Esegui monitor
         env:
