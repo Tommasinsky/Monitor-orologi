@@ -12,7 +12,7 @@ VALORE = "nos fondo di magazzino scatola garanzia box papers full set mai indoss
 KEYWORDS = "cronografo automatico vintage diver chronograph"
 
 RICERCA = f"{BRANDS} {GIAPPONESI} {VALORE} {KEYWORDS}"
-BUDGET_MASSIMO = 1500 
+BUDGET_MASSIMO = 1000
 
 scraper = VintedScraper("https://www.vinted.it")
 
